@@ -1,37 +1,29 @@
-from .maptype import MapType
 from .celd import Celd
+from .maptype import MapType
 
 class Map(object):
 
 	def __init__(self):
-		self.maps = {
-			"Easy": MapType(9, 9, 10),
-			"Medium": MapType(16, 16, 40),
-			"Hard": MapType(30, 16, 99)
-		}
+		self.map = []
+		self.difficultSelected = MapType()
 
-	def showDifficulty(self):
-		for k, v in self.maps.items():
-			print("(" + k + ") " + v.getthis())
-
-	def verifyDifficulty(self, difficulty_selected):
-		if difficulty_selected in self.maps:
-			return self.maps[difficulty_selected]
-		else:
-			raise Exception("400 - Map type \"{difficulty}\" doesn\'t exists".format(difficulty = difficulty_selected))
+	def __init__(self, difficulty):
+		self.map = [[difficulty.height] * difficulty.width for i in range(difficulty.width)]
+		self.difficultSelected = difficulty
+		self.generate_map(difficulty)
 
 	def generate_map(self, difficulty):
 		try:
-			self.map = {}
-			map_type = self.verifyDifficulty(difficulty)
-			print(map_type.getthis())
-			for x in range(1, map_type.width):
-				for y in range(1, map_type.height):
-					self.map[str(x) + "-" + str(y)] = Celd()
+			for y in range(0, difficulty.height):
+				for x in range(0, difficulty.width):
+					self.map[y][x] = Celd()
 
 		except Exception as e:
 			print(e)
 
-	def showmap(self):
-		for k, v in self.map.items():
-			print(v.content, end=", ")
+	def showMap(self):
+		for y in range(0, self.difficultSelected.height):
+			for x in range(0, self.difficultSelected.width):
+				print(self.map[y][x].content, end=" ")
+			print()
+
