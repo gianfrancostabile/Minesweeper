@@ -20,7 +20,6 @@ class Map(object):
 					self.map[y][x] = Celd()
 
 			self.putMines()
-			self.showMap()
 			self.putNumbers()
 		except Exception as e:
 			print(e)
@@ -68,4 +67,3 @@ class Map(object):
 				print(self.map[y][x].content, end=" ")
 			print()
 		print()
-

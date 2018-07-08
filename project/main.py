@@ -1,5 +1,6 @@
 from models.map import Map
 from models.maptype import MapType
+from models.view import View
 
 class Main(object):
 
@@ -23,7 +24,9 @@ class Main(object):
                 print(str(e) + " Write a correct difficulty...\n")
 
         mMap = Map(difficulty)
-        mMap.showMap()
+        view = View()
+        view.generateFrameGrids(mMap)
+        view.display()
 
     def generateMapTypes(self):
         self.types = {
