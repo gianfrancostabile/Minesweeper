@@ -16,8 +16,6 @@ class View(object):
 
         frame = Frame(self.root, padx=10, pady=10)
         frame.configure(background="light slate blue")
-        copy = Frame(self.root, padx=10, pady=10)
-        copy.configure(background="light slate blue")
 
         width = self.map.difficultSelected.width
         height = self.map.difficultSelected.height
@@ -33,26 +31,16 @@ class View(object):
 
                 btn_sublist.append(button)
             self.btn_map.append(btn_sublist)
-
-        for y in range(0, height):
-            for x in range(0, width):
-                celdXY = self.map.celds[y][x]
-                color = celdXY.getColorByNumber()
-                button = Button(copy, text="{content}".format(content=celdXY.content), width=3, height=1, fg=color)
-                button.grid(row=y, column=x)
-
         frame.pack()
-        copy.pack()
 
     def showContent(self, btn, celd):
         background = "grey"
         content, fg = celd.content, celd.getColorByNumber()
         btn_content = btn["text"]
+
         if content == -1:
-            gameOverWindow = Tk()
-            gameOverWindow.title("Minesweeper")
-            btn_GameOver = Button(gameOverWindow, text="Game Over!!!", command=gameOverWindow.destroy)
-            btn_GameOver.pack()
+            self.display_GameOver()
+            btn["text"], btn["fg"], btn["background"] = content, fg, background
 
         elif btn_content != "" and 9 > content > -1:
             countX, countY = 0, 0
@@ -64,6 +52,9 @@ class View(object):
                         if x2 > -1 and y2 > -1:
                             celd2 = self.map.celds[y2][x2]
                             btn2 = self.btn_map[y2][x2]
+
+                            if btn2["text"] == "" and celd2.content == -1:
+                                self.display_GameOver()
                             btn2["text"], btn2["fg"], btn2["background"] = celd2.content, celd2.getColorByNumber(), background
                     except Exception as e:
                         pass
@@ -75,5 +66,10 @@ class View(object):
                 countX = 0
                 x2 = celd.x - 1
 
-        else:
-            btn["text"], btn["fg"], btn["background"] = content, fg, background
+        btn["text"], btn["fg"], btn["background"] = content, fg, background
+
+    def display_GameOver(self):
+        gameOverWindow = Tk()
+        gameOverWindow.title("Minesweeper")
+        btn_GameOver = Button(gameOverWindow, text="Game Over!!!", command=gameOverWindow.destroy)
+        btn_GameOver.pack()

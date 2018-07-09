@@ -24,8 +24,8 @@ def main():
             print(str(e) + " Write a correct difficulty...\n")
 
     mMap = Map(difficulty)
-    view = View()
-    view.generateFrameGrids(mMap)
+    view = View(mMap)
+    view.generateFrameGrids()
     view.display()
 
 def getDifficulty(difficulty_selected):
