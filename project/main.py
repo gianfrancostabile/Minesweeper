@@ -2,49 +2,42 @@ from models.map import Map
 from models.maptype import MapType
 from models.view import View
 
-class Main(object):
+types = {
+    "Easy": MapType(9, 9, 10),
+    "Medium": MapType(16, 16, 40),
+    "Hard": MapType(30, 16, 99)
+}
 
-    def __init__(self):
-        self.types = {}
+def main():
+    difficulty = None
 
-    def main(self):
-        self.generateMapTypes()
-        difficulty = None
+    loop = False
+    while not loop:
+        try:
+            showTypes()
+            print("Which difficulty do you choose? ", end=" ")
+            difficultyStr = str(input())
+            difficulty = getDifficulty(difficultyStr)
+            loop = True
 
-        loop = False
-        while not loop:
-            try:
-                self.showTypes()
-                print("Which difficulty do you choose? ", end=" ")
-                difficultyStr = str(input())
-                difficulty = self.getDifficulty(difficultyStr)
-                loop = True
+        except Exception as e:
+            print(str(e) + " Write a correct difficulty...\n")
 
-            except Exception as e:
-                print(str(e) + " Write a correct difficulty...\n")
+    mMap = Map(difficulty)
+    view = View()
+    view.generateFrameGrids(mMap)
+    view.display()
 
-        mMap = Map(difficulty)
-        view = View()
-        view.generateFrameGrids(mMap)
-        view.display()
+def getDifficulty(difficulty_selected):
+    if difficulty_selected in types:
+        return types[difficulty_selected]
+    else:
+        raise Exception("\n400 - Map type \"{difficulty}\" doesn\'t exists.".format(difficulty=difficulty_selected))
 
-    def generateMapTypes(self):
-        self.types = {
-            "Easy": MapType(9, 9, 10),
-            "Medium": MapType(16, 16, 40),
-            "Hard": MapType(30, 16, 99)
-        }
-
-    def getDifficulty(self, difficulty_selected):
-        if difficulty_selected in self.types:
-            return self.types[difficulty_selected]
-        else:
-            raise Exception("\n400 - Map type \"{difficulty}\" doesn\'t exists.".format(difficulty=difficulty_selected))
-
-    def showTypes(self):
-        for k, v in self.types.items():
-            print("({difficulty}) - {map_type}".format(difficulty=k, map_type=v.getThis()))
+def showTypes():
+    for k, v in types.items():
+        print("({difficulty}) - {map_type}".format(difficulty=k, map_type=v.getThis()))
 
 if __name__ == "__main__":
-    start = Main()
-    start.main()
+    main()
+
