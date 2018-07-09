@@ -1,8 +1,10 @@
 
 class Celd(object):
 
-    def __init__(self):
+    def __init__(self, x, y):
         self.content = 0
+        self.x = x
+        self.y = y
 
     def change_to_mine(self):
         self.content = -1
