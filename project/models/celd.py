@@ -5,6 +5,7 @@ class Celd(object):
         self.content = 0
         self.x = x
         self.y = y
+        self.showed = False
 
     def change_to_mine(self):
         self.content = -1
