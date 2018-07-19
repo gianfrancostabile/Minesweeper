@@ -1,7 +1,8 @@
 
 import pygame
 import picture
-import sys
+from tkinter import *
+from tkinter import messagebox
 from random import randint
 from celd import Celd
 from buttons.celd_button import Celd_Button
@@ -14,6 +15,8 @@ class Board(object):
         self.create_empty_map(map_type)
         self.put_bombs(map_type.bombs)
         self.put_numbers()
+        self.visible = False
+        self.difficult_selected = map_type
 
     def create_empty_map(self, difficult):
         self.matrix = [[difficult.y] * difficult.x for i in range(difficult.x)]
@@ -64,8 +67,9 @@ class Board(object):
 
         return bombs
 
-    def display_board(self):
-        posX, posY = 0, 0
+    def display_board_hide(self):
+        self.visible = False
+
         square_side = 40
 
         y = len(self.matrix)
@@ -79,19 +83,38 @@ class Board(object):
         for i in range(y):
             for j in range(x):
                 celd_button = self.matrix[i][j]
-                screen.blit(celd_button.unclicked, (posY, posX))
-                posX += 40
-            posY += 40
-            posX = 0
+                screen.blit(celd_button.unclicked, (celd_button.x, celd_button.y))
 
+        pygame.display.flip()
+        return screen
+
+    def display_board_visible(self):
+        self.visible = True
+        square_side = 40
+
+        y = len(self.matrix)
+        x = len(self.matrix[0])
+
+        pos_height = y * square_side
+        pos_width = x * square_side
+
+        screen = pygame.display.set_mode((pos_width, pos_height))
+
+        for i in range(y):
+            for j in range(x):
+                celd_button = self.matrix[i][j]
+                screen.blit(celd_button.clicked, (celd_button.x, celd_button.y))
+
+        pygame.display.flip()
         return screen
 
     def action(self, button, event, screen):
 
         mouse_click = event.button
 
-        if mouse_click == 1:
+        if mouse_click == 1 and button.content.status_celd() == "Invisible":
             self.reveal(button, screen)
+            self.verify_victory()
 
         elif mouse_click == 3:
             status = button.content.right_click_action()
@@ -105,18 +128,21 @@ class Board(object):
 
             button.unclicked = pygame.transform.scale(button.unclicked, (button.width, button.height))
             screen.blit(button.unclicked, (button.x, button.y))
-        pygame.display.flip()
+            pygame.display.flip()
+            self.verify_victory()
+
 
     def reveal(self, button, screen):
-
-        if button.content.status_celd() == "Invisible":
+        celd = button.content
+        if celd.status_celd() == "Invisible":
             button.reveal()
             screen.blit(button.clicked, (button.x, button.y))
-            if button.content.is_empty():
+            pygame.display.flip()
+
+            if celd.is_empty():
                 self.reveal_neighbours(button, screen)
 
     def reveal_neighbours(self, button, screen):
-
         celd = button.content
         posX, posY = celd.x - 1, celd.y - 1
 
@@ -131,3 +157,38 @@ class Board(object):
                 posX += 1
             posY += 1
             posX = celd.x - 1
+
+    def game_over(self):
+        tk = Tk().wm_withdraw()
+        messagebox.showinfo('', "Game over. Press R to restart")
+
+    def victory(self):
+        tk = Tk().wm_withdraw()
+        messagebox.showinfo('', "VICTORY!!!")
+
+    def verify_victory(self):
+        bombs = self.difficult_selected.bombs
+        counterBombs, counterRevealed = 0, 0
+        maxRevealed = (len(self.matrix) * len(self.matrix[0])) - bombs
+        victory = True
+
+        for y in range(len(self.matrix)):
+            for x in range(len(self.matrix[y])):
+                celd = self.matrix[y][x].content
+
+                if celd.status_celd() == "Visible":
+                    if celd.is_bomb():
+                        victory = False
+                        break
+                    else:
+                        counterRevealed += 1
+                elif celd.status_celd() == "Flag":
+                    if celd.is_bomb():
+                        counterBombs += 1
+
+        if counterBombs == bombs and counterRevealed == maxRevealed and victory:
+            self.victory()
+        elif not victory:
+            self.display_board_visible()
+            self.game_over()
+

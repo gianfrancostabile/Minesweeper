@@ -1,6 +1,5 @@
 import pygame
 
-PICTURES = {}
 
 def load_picture(url):
     try:
@@ -29,8 +28,7 @@ def charge_pictures():
     seven = load_picture("images/seven.png")
     eight = load_picture("images/eight.png")
 
-    global PICTURES
-    PICTURES = {
+    pictures = {
         "empty": empty_not_visible,
         0: empty_visible,
         9: bomb,
@@ -45,6 +43,10 @@ def charge_pictures():
         7: seven,
         8: eight
     }
+
+    return pictures
+
+PICTURES = charge_pictures()
 
 def get_picture(content):
     global PICTURE

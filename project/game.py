@@ -1,39 +1,54 @@
 
 import pygame
-import sys
+import picture
 from board import Board
 
-def main(board):
-    screen = board.display_board()
-    pygame.display.flip()
+def main():
+    board = Board()
+    screen = board.display_board_hide()
 
+    try:
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
 
-    running = True
-    while running:
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        main()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    width_pressed = event.pos[0]
+                    height_pressed = event.pos[1]
 
-            elif event.type == pygame.MOUSEBUTTONUP:
-                width_pressed = event.pos[0]
-                height_pressed = event.pos[1]
+                    posX_pressed = int(width_pressed / 40)
+                    posY_pressed = int(height_pressed / 40)
 
-                posX_pressed = int(width_pressed / 40)
-                posY_pressed = int(height_pressed / 40)
+                    button_pressed = board.matrix[posY_pressed][posX_pressed]
 
-                button_pressed = board.matrix[posY_pressed][posX_pressed]
-                board.action(button_pressed, event, screen)
+                    board.action(button_pressed, event, screen)
 
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    width_pressed = event.pos[0]
+                    height_pressed = event.pos[1]
 
-def reveal_neighbours(board, celd):
-    y = len(board.matrix)
-    x = len(board.matrix[0])
+                    posX_pressed = int(width_pressed / 40)
+                    posY_pressed = int(height_pressed / 40)
 
+                    button_pressed = board.matrix[posY_pressed][posX_pressed]
+
+                    if button_pressed.content.status_celd() == "Invisible":
+                        pic = picture.get_picture(0)
+                        pic = pygame.transform.scale(pic, (button_pressed.width, button_pressed.height))
+                        screen.blit(pic, (button_pressed.x, button_pressed.y))
+                        pygame.display.flip()
+
+    except pygame.error:
+        pass
 
 if __name__ == "__main__":
     pygame.init()
-    board = Board()
-    main(board)
+    main()
 
