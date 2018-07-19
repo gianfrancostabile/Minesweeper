@@ -19,7 +19,7 @@ def main():
                     if event.key == pygame.K_r:
                         main()
 
-                elif event.type == pygame.MOUSEBUTTONUP:
+                elif event.type == pygame.MOUSEBUTTONUP and not board.visible:
                     width_pressed = event.pos[0]
                     height_pressed = event.pos[1]
 
@@ -30,7 +30,7 @@ def main():
 
                     board.action(button_pressed, event, screen)
 
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN and not board.visible:
                     width_pressed = event.pos[0]
                     height_pressed = event.pos[1]
 

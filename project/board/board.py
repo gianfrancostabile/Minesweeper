@@ -111,7 +111,6 @@ class Board(object):
         return screen
 
     def action(self, button, event, screen):
-
         mouse_click = event.button
 
         if mouse_click == 1 and button.content.status_celd() == "Invisible":
