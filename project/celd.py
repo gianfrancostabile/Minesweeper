@@ -18,6 +18,13 @@ class Celd(object):
     def put_bomb(self):
         self.content = 9
 
+    def is_empty(self):
+        bool = False
+        if self.content == 0:
+            bool = True
+
+        return bool
+
     def is_bomb(self):
         bool = False
         if self.content == 9:
@@ -25,9 +32,12 @@ class Celd(object):
 
         return bool
 
-    def show_content(self):
-        self.visible = True
-        return self.content
+    def reveal(self):
+
+        if not self.visible and not self.flag and not self.question:
+            self.visible = True
+
+        return self.visible
 
     def right_click_action(self):
         if not self.visible:
@@ -58,15 +68,3 @@ class Celd(object):
 
         return status
 
-    """def get_content(self):
-        content_to_show = "empty"
-
-        if not self.visible:
-            if self.flag:
-                content_to_show = "flag"
-            elif self.question:
-                content_to_show = "question"
-        else:
-            content_to_show = self.content
-
-        return content_to_show"""
