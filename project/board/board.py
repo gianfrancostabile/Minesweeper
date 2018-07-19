@@ -10,6 +10,8 @@ from images import picture
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
+STACK_REVEAL = list()
+
 class Board(object):
 
     def __init__(self):
@@ -113,7 +115,7 @@ class Board(object):
     def action(self, button, event, screen):
         mouse_click = event.button
 
-        if mouse_click == 1 and button.content.status_celd() == "Invisible":
+        if mouse_click == 1:
             self.reveal(button, screen)
             self.verify_victory()
 
@@ -132,8 +134,10 @@ class Board(object):
             pygame.display.flip()
             self.verify_victory()
 
-
     def reveal(self, button, screen):
+        global STACK_REVEAL
+        STACK_REVEAL.append(button)
+
         celd = button.content
         if celd.status_celd() == "Invisible":
             button.reveal()
@@ -142,6 +146,11 @@ class Board(object):
 
             if celd.is_empty():
                 self.reveal_neighbours(button, screen)
+
+        elif celd.status_celd() == "Visible" and 2 > len(STACK_REVEAL) >= 0:
+            self.reveal_neighbours(button, screen)
+
+        STACK_REVEAL.remove(button)
 
     def reveal_neighbours(self, button, screen):
         celd = button.content
