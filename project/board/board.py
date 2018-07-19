@@ -1,12 +1,14 @@
 
-import pygame
-import picture
+import pygame, os
 from tkinter import *
 from tkinter import messagebox
 from random import randint
-from celd import Celd
+from board.celd import Celd
 from buttons.celd_button import Celd_Button
-from map_type import MapType
+from board.map_type import MapType
+from images import picture
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 class Board(object):
 
@@ -159,11 +161,11 @@ class Board(object):
             posX = celd.x - 1
 
     def game_over(self):
-        tk = Tk().wm_withdraw()
+        Tk().wm_withdraw()
         messagebox.showinfo('', "Game over. Press R to restart")
 
     def victory(self):
-        tk = Tk().wm_withdraw()
+        Tk().wm_withdraw()
         messagebox.showinfo('', "VICTORY!!!")
 
     def verify_victory(self):

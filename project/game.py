@@ -1,7 +1,7 @@
 
 import pygame
-import picture
-from board import Board
+from images import picture
+from board.board import Board
 
 def main():
     board = Board()
