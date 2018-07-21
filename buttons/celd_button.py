@@ -5,16 +5,16 @@ from .button import Button
 
 class Celd_Button(Button):
 
-    def __init__(self, celd, x, y, width, heigth):
+    def __init__(self, celd, x, y, width, height):
 
-        super().__init__(celd, x, y, width, heigth)
+        super().__init__(celd, x, y, width, height)
 
         picture.charge_pictures()
 
         self.clicked = picture.get_picture(celd.content)
-        self.clicked = pygame.transform.scale(self.clicked, (heigth, width))
+        self.clicked = pygame.transform.scale(self.clicked, (height, width))
         self.unclicked = picture.get_picture("empty")
-        self.unclicked = pygame.transform.scale(self.unclicked, (heigth, width))
+        self.unclicked = pygame.transform.scale(self.unclicked, (height, width))
 
     def action(self, event):
         pass

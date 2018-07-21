@@ -2,6 +2,7 @@
 import pygame
 
 def load_picture(url):
+    picture = None
     try:
         picture = pygame.image.load(url)
         picture = picture.convert()
