@@ -1,7 +1,7 @@
 
 import pygame
 from images import picture
-from buttons.button import Button
+from .button import Button
 
 class Celd_Button(Button):
 

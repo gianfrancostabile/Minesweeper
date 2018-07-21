@@ -3,9 +3,9 @@ import pygame, os
 from tkinter import *
 from tkinter import messagebox
 from random import randint
-from board.celd import Celd
+from .celd import Celd
 from buttons.celd_button import Celd_Button
-from board.map_type import MapType
+from .map_type import MapType
 from images import picture
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'

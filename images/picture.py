@@ -1,5 +1,5 @@
-import pygame
 
+import pygame
 
 def load_picture(url):
     try:
