@@ -51,7 +51,7 @@ def intro():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 x_pressed, y_pressed = pygame.mouse.get_pos()
 
-def main():
+def game():
     global MAP_TYPE
     board = Board(MAP_TYPE)
     screen = board.display_board_hide()
@@ -60,18 +60,18 @@ def main():
     posX_pressed, posY_pressed = 0, 0
     running = True
     while running:
-        for event in pygame.event.get():
-            try:
+        try:
+            for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.quit()
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
-                        main()
+                        game()
 
                     elif event.key == pygame.K_ESCAPE:
-                        pass
+                        main()
 
                 if not board.visible:
                     if event.type == pygame.MOUSEBUTTONUP:
@@ -92,14 +92,16 @@ def main():
                             pic = pygame.transform.scale(pic, (button_pressed.width, button_pressed.height))
                             screen.blit(pic, (button_pressed.x, button_pressed.y))
                             pygame.display.flip()
-            except pygame.error:
-                pass
+        except pygame.error:
+            pass
 
-if __name__ == "__main__":
+def main():
     pygame.init()
     pygame.display.set_caption("Minesweeper")
     pygame.display.set_icon(picture.get_picture("icon"))
 
     intro()
-    main()
+    game()
 
+if __name__ == "__main__":
+    main()

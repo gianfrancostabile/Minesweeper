@@ -169,7 +169,7 @@ class Board(object):
 
     def game_over(self):
         Tk().wm_withdraw()
-        messagebox.showinfo('', "Game over. Press R to restart")
+        messagebox.showinfo('', "Game over. Press (R) to restart - Press (ESC) to change difficulty")
 
     def victory(self):
         Tk().wm_withdraw()
