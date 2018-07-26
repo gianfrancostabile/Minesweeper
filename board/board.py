@@ -5,7 +5,6 @@ from tkinter import messagebox
 from random import randint
 from .celd import Celd
 from buttons.celd_button import Celd_Button
-from .map_type import MapType
 from images import picture
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -14,8 +13,7 @@ STACK_REVEAL = list()
 
 class Board(object):
 
-    def __init__(self):
-        map_type = MapType("Easy", 9, 9, 10)
+    def __init__(self, map_type):
         self.create_empty_map(map_type)
         self.put_bombs(map_type.bombs)
         self.put_numbers()
@@ -23,7 +21,7 @@ class Board(object):
         self.difficult_selected = map_type
 
     def create_empty_map(self, difficult):
-        self.matrix = [[difficult.y] * difficult.x for i in range(difficult.x)]
+        self.matrix = [[difficult.y] * difficult.x for i in range(difficult.y)]
 
         for y in range(difficult.y):
             for x in range(difficult.x):
@@ -120,19 +118,20 @@ class Board(object):
             self.verify_victory()
 
         elif mouse_click == 3:
-            status = button.content.right_click_action()
+            if not button.content.visible:
+                status = button.content.right_click_action()
 
-            if status == "Flag":
-                button.unclicked = picture.get_picture("flag")
-            elif status == "Question":
-                button.unclicked = picture.get_picture("question")
-            elif status == "Invisible":
-                button.unclicked = picture.get_picture("empty")
+                if status == "Flag":
+                    button.unclicked = picture.get_picture("flag")
+                elif status == "Question":
+                    button.unclicked = picture.get_picture("question")
+                elif status == "Invisible":
+                    button.unclicked = picture.get_picture("empty")
 
-            button.unclicked = pygame.transform.scale(button.unclicked, (button.width, button.height))
-            screen.blit(button.unclicked, (button.x, button.y))
-            pygame.display.flip()
-            self.verify_victory()
+                button.unclicked = pygame.transform.scale(button.unclicked, (button.width, button.height))
+                screen.blit(button.unclicked, (button.x, button.y))
+                pygame.display.flip()
+                self.verify_victory()
 
     def reveal(self, button, screen):
         global STACK_REVEAL

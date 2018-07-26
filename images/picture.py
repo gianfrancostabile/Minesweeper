@@ -13,6 +13,8 @@ def load_picture(url):
 
 
 def charge_pictures():
+    icon = load_picture("images/icon.png")
+
     empty_not_visible = load_picture("images/empty_not_visible.jpg")
     empty_visible = load_picture("images/empty_visible.jpg")
 
@@ -30,6 +32,7 @@ def charge_pictures():
     eight = load_picture("images/eight.png")
 
     pictures = {
+        "icon": icon,
         "empty": empty_not_visible,
         0: empty_visible,
         9: bomb,

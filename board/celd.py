@@ -33,7 +33,6 @@ class Celd(object):
         return bool
 
     def reveal(self):
-
         if not self.visible and not self.flag and not self.question:
             self.visible = True
 
