@@ -177,7 +177,7 @@ class Board(object):
 
     def verify_victory(self):
         bombs = self.difficult_selected.bombs
-        counterBombs, counterRevealed = 0, 0
+        counterBombs, celdsRevealed = 0, 0
         maxRevealed = (len(self.matrix) * len(self.matrix[0])) - bombs
         victory = True
 
@@ -190,12 +190,12 @@ class Board(object):
                         victory = False
                         break
                     else:
-                        counterRevealed += 1
-                elif celd.status_celd() == "Flag":
+                        celdsRevealed += 1
+                else:
                     if celd.is_bomb():
                         counterBombs += 1
 
-        if counterBombs == bombs and counterRevealed == maxRevealed and victory:
+        if counterBombs == bombs and celdsRevealed == maxRevealed and victory:
             self.victory()
         elif not victory:
             self.display_board_visible()
