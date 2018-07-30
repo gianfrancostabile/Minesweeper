@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint
 from .celd import Celd
-from buttons.celd_button import Celd_Button
+from buttons.celd_button import CeldButton
 from images import picture
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -30,7 +30,7 @@ class Board(object):
                 posY = y * side
 
                 new_celd = Celd(y, x)
-                self.matrix[y][x] = Celd_Button(new_celd, posX, posY, side, side)
+                self.matrix[y][x] = CeldButton(new_celd, posX, posY, side, side)
 
     def put_bombs(self, amount_mines):
         i = 0

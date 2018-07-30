@@ -58,19 +58,23 @@ def game():
 
     width_pressed, height_pressed = 0, 0
     posX_pressed, posY_pressed = 0, 0
-    running = True
+    running, r_pressed, escape_pressed = True, False, False
     while running:
         try:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                     pygame.quit()
+                    quit()
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_r:
-                        game()
+                        r_pressed = True
+                        running = False
 
                     elif event.key == pygame.K_ESCAPE:
+                        escape_pressed = True
+                        running = False
                         main()
 
                 if not board.visible:
@@ -94,6 +98,11 @@ def game():
                             pygame.display.flip()
         except pygame.error:
             pass
+
+    if r_pressed:
+        game()
+    if escape_pressed:
+        main()
 
 def main():
     pygame.init()

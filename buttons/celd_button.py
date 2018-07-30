@@ -1,23 +1,19 @@
 
 import pygame
 from images import picture
-from .button import Button
 
-class Celd_Button(Button):
+class CeldButton(object):
 
     def __init__(self, celd, x, y, width, height):
-
-        super().__init__(celd, x, y, width, height)
-
-        picture.charge_pictures()
-
-        self.clicked = picture.get_picture(celd.content)
-        self.clicked = pygame.transform.scale(self.clicked, (height, width))
-        self.unclicked = picture.get_picture("empty")
-        self.unclicked = pygame.transform.scale(self.unclicked, (height, width))
-
-    def action(self, event):
-        pass
+        self.content = celd
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        button_clicked = picture.get_picture(celd.content)
+        self.clicked = pygame.transform.scale(button_clicked, (height, width))
+        button_unclicked = picture.get_picture("empty")
+        self.unclicked = pygame.transform.scale(button_unclicked, (height, width))
 
     def reveal(self):
         return self.content.reveal()
